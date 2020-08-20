@@ -168,8 +168,6 @@ private:
 	rule ClassLine;
 	rule KeyValueLine;
 	rule KeyValueList;
-	rule ArgLine;
-	rule ArgBlock;
 	rule invoke_args_with_table;
 	rule BackcallOperator;
 	rule ExponentialOperator;

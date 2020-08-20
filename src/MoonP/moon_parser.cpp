@@ -524,20 +524,17 @@ MoonParser::MoonParser() {
 	ExpList = Seperator >> Exp >> *(White >> expr(',') >> White >> Exp);
 	ExpListLow = Seperator >> Exp >> *(White >> set(",;") >> White >> Exp);
 
-	ArgLine = CheckIndent >> Exp >> *(sym(',') >> Exp);
-	ArgBlock = ArgLine >> *(sym(',') >> SpaceBreak >> ArgLine) >> PopIndent;
-
 	invoke_args_with_table =
-		sym(',') >>
+		White >> expr(',') >>
 		(
 			TableBlock |
-			SpaceBreak >> Advance >> ArgBlock >> -TableBlock
+			White >> Exp >> *(White >> expr(',') >> (TableBlock | White >> Exp))
 		);
 
 	InvokeArgs =
 		not_(set("-~")) >> Seperator >>
 		(
-			Exp >> *(sym(',') >> Exp) >> -(invoke_args_with_table | TableBlock) |
+			Exp >> -invoke_args_with_table |
 			TableBlock
 		);
 

@@ -25,7 +25,7 @@ another =
 
 fwip =
 	something: hello"what", number: 2323,
-	what: yo "momma", "yeah",
+	what: yo("momma", "yeah"),
 	fruit: basket
 	nuts: day
 
@@ -132,7 +132,7 @@ keepit going: true,
 
 thing what:
 	"great", no:
-		"more"
+		"more",
 					okay: 123
 
 
