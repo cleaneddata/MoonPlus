@@ -7,7 +7,7 @@ a, bunch, go, here = another, world
 func arg1, arg2, another, arg3
 
 here, we = () ->, yeah
-the, different = () -> approach; yeah
+the, consistent = (() -> approach), yeah
 
 dad()
 dad(lord)
@@ -381,11 +381,19 @@ do
 	,_2
 	,_3
 	,_4 = 1,
-		f 2;
-		3;
-		f 4,
-			4;
+		f(2),
+		3,
+		f(4,
+			4),
 		5
+
+	f -> 1,
+		-> 2,
+		-> 3
+	
+	f -> return 1,
+		-> 2,
+		-> 3
 
 nil
 

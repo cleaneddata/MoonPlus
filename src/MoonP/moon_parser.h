@@ -207,7 +207,6 @@ private:
 	AST_RULE(Goto)
 	AST_RULE(fn_arrow_back)
 	AST_RULE(Backcall)
-	AST_RULE(ExpListLow)
 	AST_RULE(ExpList)
 	AST_RULE(Return)
 	AST_RULE(With)

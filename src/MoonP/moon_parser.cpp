@@ -170,7 +170,7 @@ MoonParser::MoonParser() {
 	InBlock = Advance >> ensure(Block, PopIndent);
 
 	local_flag = expr('*') | expr('^');
-	local_values = NameList >> -(sym('=') >> (TableBlock | ExpListLow));
+	local_values = NameList >> -(sym('=') >> (TableBlock | ExpList));
 	Local = key("local") >> (Space >> local_flag | local_values);
 
 	LocalAttrib = and_(key(pl::user(Name, [](const item_t& item) {
@@ -213,7 +213,7 @@ MoonParser::MoonParser() {
 
 	BreakLoop = (expr("break") | expr("continue")) >> not_(AlphaNum);
 
-	Return = key("return") >> -ExpListLow;
+	Return = key("return") >> -ExpList;
 
 	WithExp = ExpList >> -Assign;
 
@@ -281,7 +281,7 @@ MoonParser::MoonParser() {
 	CompFor = key("for") >> Space >> Variable >> sym('=') >> Exp >> sym(',') >> White >> Exp >> -for_step_value;
 	CompClause = CompFor | CompForEach | key("when") >> Exp;
 
-	Assign = sym('=') >> Seperator >> (With | If | Switch | TableBlock | Exp >> *(White >> set(",;") >> White >> Exp));
+	Assign = sym('=') >> Seperator >> (With | If | Switch | TableBlock | Exp >> *(White >> expr(',') >> White >> Exp));
 
 	update_op =
 		expr("..") |
@@ -442,7 +442,7 @@ MoonParser::MoonParser() {
 		-(key("extends")  >> PreventIndent >> ensure(Exp, PopIndent)) >>
 		-ClassBlock;
 
-	global_values = NameList >> -(sym('=') >> (TableBlock | ExpListLow));
+	global_values = NameList >> -(sym('=') >> (TableBlock | ExpList));
 	global_op = expr('*') | expr('^');
 	Global = key("global") >> (ClassDecl | (Space >> global_op) | global_values);
 
@@ -522,7 +522,6 @@ MoonParser::MoonParser() {
 	Backcall = -FnArgsDef >> Space >> fn_arrow_back >> Space >> ChainValue;
 
 	ExpList = Seperator >> Exp >> *(White >> expr(',') >> White >> Exp);
-	ExpListLow = Seperator >> Exp >> *(White >> set(",;") >> White >> Exp);
 
 	invoke_args_with_table =
 		White >> expr(',') >>
