@@ -49,7 +49,7 @@ inline std::string s(std::string_view sv) {
 }
 
 const std::string_view version() {
-	return "0.4.11"sv;
+	return "0.4.12"sv;
 }
 
 // name of table stored in lua registry
@@ -4593,6 +4593,7 @@ private:
 				case id<Exp_t>(): transformExp(static_cast<Exp_t*>(pair), temp, ExpUsage::Closure); break;
 				case id<variable_pair_t>(): transform_variable_pair(static_cast<variable_pair_t*>(pair), temp); break;
 				case id<normal_pair_t>(): transform_normal_pair(static_cast<normal_pair_t*>(pair), temp); break;
+				case id<TableBlockIndent_t>(): transformTableBlockIndent(static_cast<TableBlockIndent_t*>(pair), temp); break;
 				default: assert(false); break;
 			}
 			temp.back() = indent() + temp.back() + (pair == pairs.back() ? Empty : s(","sv)) + nll(pair);
@@ -4711,6 +4712,10 @@ private:
 		out.push_back(clearBuf());
 		pushScope();
 		addToScope(varName);
+	}
+
+	void transformTableBlockIndent(TableBlockIndent_t* table, str_list& out) {
+		transformTable(table, table->values.objects(), out);
 	}
 
 	void transformTableBlock(TableBlock_t* table, str_list& out) {
