@@ -25,7 +25,7 @@ another =
 
 fwip =
 	something: hello"what", number: 2323,
-	what: yo("momma", "yeah"),
+	what: yo "momma", "yeah",
 	fruit: basket
 	nuts: day
 
@@ -126,22 +126,31 @@ kam = {
 }
 
 -- TODO: both of these have undesirable output
-keepit going: true,
-	okay: "yeah",
+--  because of the mixed use of TableLit and TableBlock
+keepit going: true, -- TableLit
+	okay: "yeah", -- TableBlock
 	workd: "okay"
 
 thing what:
 	"great", no:
-		"more",
-					okay: 123
+		"more", -- TableLit
+					okay: 123 -- TableBlock
 
 
 -- 
+_ = {
+thing what:
+	"great", no:
+		"more",
+okay: 123
+}
+
+_ = {
 thing what:
 	"great", no:
 		"more"
-_ = okay: 123 -- a anon table
-
+okay: 123 -- a anon table
+}
 
 -- 
 
@@ -159,5 +168,25 @@ f = { "one", "two": three, "four" }
 
 j = "one", "two": three, "four": five, 6, 7
 
+heroine =
+	name: "Christina"
+	age: 18
+	job: "Princess"
+	likes:
+		# name: "kittens"
+			img: "/image/kittens.png"
+		# name: "flower"
+			img: "/image/flower.png"
+	items:
+		# name: "ring"
+			amount: 2
+		# name: "necklace"
+			amount: 1
+	status:
+		desc: "weak"
+		# attribute: "health"
+			value: 50
+		# attribute: "mana"
+			value: 100
 
 nil
