@@ -233,12 +233,12 @@ yeah
 	sure: sir
 
 hello "no comma",
- yeah: dada
- another: world
+	yeah: dada
+	another: world
 
 hello "comma",
- something: hello_world,
- frick: you
+	something: hello_world,
+	frick: you
 
 man
 	okay: yeah
@@ -249,12 +249,14 @@ another hello
 	, one,
 	two, three, four,
 	-- the tables below will be merged into one table
-	-- simple table syntax
+	-- simple table syntax (single line with comma)
 	yeah: man, okay: yeah,
-	-- table block syntax
-	fine: alrigh
-	fine2: alright
-	fine3: alrightt
+	-- table block syntax (multi lines without comma)
+	rest:
+		# fine: alright,
+			okey: 1
+		# fine: alright,
+			okey: 2
 
 another hello, one, two, three, four,
 	yeah: man

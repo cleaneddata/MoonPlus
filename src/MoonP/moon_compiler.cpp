@@ -49,7 +49,7 @@ inline std::string s(std::string_view sv) {
 }
 
 const std::string_view version() {
-	return "0.4.13"sv;
+	return "0.4.14"sv;
 }
 
 // name of table stored in lua registry
@@ -2068,8 +2068,8 @@ private:
 				if (bLast != nodes.rend()) {
 					bool isMacro = false;
 					BLOCK_START
-					BREAK_IF(expList->exprs.size() != 1);
-					auto exp = static_cast<Exp_t*>(expList->exprs.back());
+					BREAK_IF(newExpList->exprs.size() != 1);
+					auto exp = static_cast<Exp_t*>(newExpList->exprs.back());
 					BREAK_IF(!exp->opValues.empty());
 					auto chainValue = exp->getByPath<unary_exp_t, Value_t, ChainValue_t>();
 					BREAK_IF(!chainValue);
@@ -3591,16 +3591,17 @@ private:
 		if (invokeArgs->args.size() > 1) {
 			/* merge all the key-value pairs into one table
 			 from arguments in the end */
-			ast_ptr<false, ast_node> lastArg = invokeArgs->args.back();
+			auto lastArg = invokeArgs->args.back();
 			_ast_list* lastTable = nullptr;
-			if (auto tableBlock = lastArg.as<TableBlock_t>()) {
+			if (auto tableBlock = ast_cast<TableBlock_t>(lastArg)) {
 				lastTable = &tableBlock->values;
-			} else if (auto value = singleValueFrom(lastArg.get())) {
-				if (ast_ptr<false, simple_table_t> simpleTable = ast_cast<simple_table_t>(value->item)) {
+			} else if (auto value = singleValueFrom(lastArg)) {
+				if (auto simpleTable = ast_cast<simple_table_t>(value->item)) {
 					lastTable = &simpleTable->pairs;
 				}
 			}
 			if (lastTable) {
+				ast_ptr<false, ast_node> ref(lastArg);
 				invokeArgs->args.pop_back();
 				while (!invokeArgs->args.empty()) {
 					if (Value_t* value = singleValueFrom(invokeArgs->args.back())) {

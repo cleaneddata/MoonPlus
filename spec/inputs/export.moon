@@ -5,6 +5,10 @@ export cool = "dad"
 d,e,f = 3, 2, 1
 export d, e, f
 
+export conf =
+	abc: 123
+	xyz: "abc"
+
 export class Something
 	umm: "cool"
 

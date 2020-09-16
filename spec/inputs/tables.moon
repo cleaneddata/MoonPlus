@@ -25,7 +25,7 @@ another =
 
 fwip =
 	something: hello"what", number: 2323,
-	what: yo "momma", "yeah",
+	what: yo "momma", "yeah"
 	fruit: basket
 	nuts: day
 
@@ -125,15 +125,14 @@ kam = {
 		one_thing =>
 }
 
--- TODO: both of these have undesirable output
---  because of the mixed use of TableLit and TableBlock
-keepit going: true, -- TableLit
+-- TODO: both of these have desirable output
+keepit going: true, -- SimpleTable
 	okay: "yeah", -- TableBlock
 	workd: "okay"
 
 thing what:
 	"great", no:
-		"more", -- TableLit
+		"more", -- SimpleTable
 					okay: 123 -- TableBlock
 
 
