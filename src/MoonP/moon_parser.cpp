@@ -529,8 +529,8 @@ MoonParser::MoonParser() {
 		White >> expr(',') >>
 		(
 			TableBlock |
-			White >> Exp >> *(White >> expr(',') >> White >> Exp) >>
-			-(expr(',') >> TableBlock)
+			White >> Exp >> *(White >> expr(',') >> not_(TableBlock) >> White >> Exp) >>
+			-(White >> expr(',') >> TableBlock)
 		);
 
 	InvokeArgs =

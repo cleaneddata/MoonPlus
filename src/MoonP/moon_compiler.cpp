@@ -49,7 +49,7 @@ inline std::string s(std::string_view sv) {
 }
 
 const std::string_view version() {
-	return "0.4.12"sv;
+	return "0.4.13"sv;
 }
 
 // name of table stored in lua registry
@@ -3588,6 +3588,36 @@ private:
 	}
 
 	void transformInvokeArgs(InvokeArgs_t* invokeArgs, str_list& out) {
+		if (invokeArgs->args.size() > 1) {
+			/* merge all the key-value pairs into one table
+			 from arguments in the end */
+			ast_ptr<false, ast_node> lastArg = invokeArgs->args.back();
+			_ast_list* lastTable = nullptr;
+			if (auto tableBlock = lastArg.as<TableBlock_t>()) {
+				lastTable = &tableBlock->values;
+			} else if (auto value = singleValueFrom(lastArg.get())) {
+				if (ast_ptr<false, simple_table_t> simpleTable = ast_cast<simple_table_t>(value->item)) {
+					lastTable = &simpleTable->pairs;
+				}
+			}
+			if (lastTable) {
+				invokeArgs->args.pop_back();
+				while (!invokeArgs->args.empty()) {
+					if (Value_t* value = singleValueFrom(invokeArgs->args.back())) {
+						if (auto tb = value->item.as<simple_table_t>()) {
+							const auto& ps = tb->pairs.objects();
+							for (auto it = ps.rbegin(); it != ps.rend(); ++it) {
+								lastTable->push_front(*it);
+							}
+							invokeArgs->args.pop_back();
+							continue;
+						}
+					}
+					break;
+				}
+				invokeArgs->args.push_back(lastArg);
+			}
+		}
 		str_list temp;
 		for (auto arg : invokeArgs->args.objects()) {
 			switch (arg->getId()) {

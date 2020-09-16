@@ -244,23 +244,28 @@ man
 	okay: yeah
 	fine: alright
 
--- creates two tables
+-- creates one table
 another hello
 	, one,
-	two, three, four, yeah: man,
-	okay: yeah
+	two, three, four,
+	-- the tables below will be merged into one table
+	-- simple table syntax
+	yeah: man, okay: yeah,
+	-- table block syntax
 	fine: alrigh
 	fine2: alright
 	fine3: alrightt
-	, good
 
 another hello, one, two, three, four,
 	yeah: man
 	okay: yeah
 
+another hello, one, two, three, four, yeah: man,
+	okay: yeah
+
 another hello, one, two, three, four, yeah: man
 	okay: yeah
- 
+
 -- 
 a += 3 - 5
 a *= 3 + 5
